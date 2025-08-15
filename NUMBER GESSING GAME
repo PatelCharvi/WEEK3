@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f2f2f2;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input[type="number"] {
+      padding: 10px;
+      width: 80px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    #reset {
+      display: none;
+      margin-top: 20px;
+      background-color: #555;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Guess the Number (1-100)</h1>
+
+  <input type="number" id="guessInput" min="1" max="100" />
+  <button onclick="checkGuess()">Guess</button>
+
+  <div id="message"></div>
+  <button id="reset" onclick="resetGame()">Play Again</button>
+
+  <script>
+    let secretNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const userGuess = parseInt(document.getElementById('guessInput').value);
+      const message = document.getElementById('message');
+      attempts++;
+
+      if (isNaN(userGuess) || userGuess < 1 || userGuess > 100) {
+        message.textContent = "Please enter a number between 1 and 100.";
+        return;
+      }
+
+      if (userGuess === secretNumber) {
+        message.textContent = `🎉 Correct! You guessed it in ${attempts} attempts.`;
+        document.getElementById('reset').style.display = 'inline-block';
+      } else if (userGuess < secretNumber) {
+        message.textContent = "📉 Too low! Try again.";
+      } else {
+        message.textContent = "📈 Too high! Try again.";
+      }
+
+      document.getElementById('guessInput').value = '';
+    }
+
+    function resetGame() {
+      secretNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById('message').textContent = '';
+      document.getElementById('guessInput').value = '';
+      document.getElementById('reset').style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
